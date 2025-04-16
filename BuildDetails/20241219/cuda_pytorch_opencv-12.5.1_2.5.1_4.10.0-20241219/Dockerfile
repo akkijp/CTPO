@@ -148,6 +148,14 @@ RUN apt-get install -y \
 # No Additional CUDA apt installs
 
 
+# Remove system cmake and install older version (3.25.3)
+RUN apt-get remove -y cmake && \
+    wget https://github.com/Kitware/CMake/releases/download/v3.25.3/cmake-3.25.3-linux-x86_64.sh && \
+    chmod +x cmake-3.25.3-linux-x86_64.sh && \
+    ./cmake-3.25.3-linux-x86_64.sh --skip-license --prefix=/usr/local && \
+    rm cmake-3.25.3-linux-x86_64.sh
+
+
 
 ENV CTPO_CLANG_VERSION=17
 RUN apt-get install -y lsb-release software-properties-common gnupg \
@@ -227,6 +235,13 @@ RUN pip3 install -U --ignore-installed \
     mkl-static mkl-include \
   # No keras
   && rm -rf /root/.cache/pip
+
+# Remove system cmake and install older version (3.25.3)
+RUN apt-get remove -y cmake && \
+    wget https://github.com/Kitware/CMake/releases/download/v3.25.3/cmake-3.25.3-linux-x86_64.sh && \
+    chmod +x cmake-3.25.3-linux-x86_64.sh && \
+    ./cmake-3.25.3-linux-x86_64.sh --skip-license --prefix=/usr/local && \
+    rm cmake-3.25.3-linux-x86_64.sh
 
 # No TensorFlow build
 RUN echo "No TensorFlow built" > /tmp/tf_env.dump
